@@ -94,7 +94,7 @@ export default function MobileLegend_7() {
     const [dataProduct, setDataProduct] = useState([]);
 
     useEffect(() => {
-        onValue(ref(db, `/product-ml-7`), (snapshot) => {
+        onValue(ref(db, `/product-ml-8`), (snapshot) => {
             setDataProduct([]);
             const data = snapshot.val();
             if (data !== null) {
