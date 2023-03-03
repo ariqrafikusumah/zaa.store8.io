@@ -13,6 +13,7 @@ import Mobilelegend4 from "./admin/Mobilelegend4";
 import Mobilelegend5 from "./admin/Mobilelegend5";
 import Mobilelegend6 from "./admin/Mobilelegend6";
 import Mobilelegend7 from "./admin/Mobilelegend7";
+import Mobilelegend8 from "./admin/Mobilelegend8";
 import MobileLegend_1 from "./pages/order/Mobilelegend_1";
 import MobileLegend_2 from "./pages/order/Mobilelegend_2";
 import MobileLegend_3 from "./pages/order/Mobilelegend_3";
@@ -69,6 +70,7 @@ function App() {
         <Route path="/admin/mobile-legend-5" element={<Mobilelegend5 />} />
         <Route path="/admin/mobile-legend-6" element={<Mobilelegend6 />} />
         <Route path="/admin/mobile-legend-7" element={<Mobilelegend7 />} />
+        <Route path="/admin/mobile-legend-8" element={<Mobilelegend8 />} />
         <Route path="/order/mobile-legend-1" element={<MobileLegend_1 />} />
         <Route path="/order/mobile-legend-2" element={<MobileLegend_2 />} />
         <Route path="/order/mobile-legend-3" element={<MobileLegend_3 />} />
