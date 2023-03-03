@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
 import { db } from '../../database/firebase';
 import { ref, onValue } from "firebase/database";
 
-export default function MobileLegend_5() {
+export default function MobileLegend_2() {
 
     // ** Modal Petunjuk
     const [show, setShow] = useState(false);
@@ -18,10 +19,38 @@ export default function MobileLegend_5() {
 
     // ** Input Value ID & Zone
     const [inputValue, setInputValue] = useState('');
+    const [email_no, setEmail_no] = useState('');
+    const [pwd, setPwd] = useState('');
     const [user_id, setUser_id] = useState('');
     const [zone_id, setZone_id] = useState('');
+    const [errorEmail_no, setErrorEmail_no] = useState('');
+    const [errorPwd, setErrorPwd] = useState('');
     const [errorUser_id, setErrorUser_id] = useState('');
     const [errorZone_id, setErrorZone_id] = useState('');
+
+    // ** Max Input Number 320 Digit
+    const handleChangeEmail_no = (event) => {
+        const inputNumberEmail_no = event.target.value;
+        // Remove non-numeric characters from the input
+        if (inputNumberEmail_no.length <= 320) {
+            setEmail_no(inputNumberEmail_no);
+            setErrorEmail_no('');
+        } else {
+            setErrorEmail_no('Bagian ini dapat diisi maksimal 320 karakter');
+        }
+    };
+
+    // ** Max Input Number 10 Digit
+    const handleChangePwd = (event) => {
+        const inputNumberPwd = event.target.value;
+        // Remove non-numeric characters from the input
+        if (inputNumberPwd.length <= 100) {
+            setPwd(inputNumberPwd);
+            setErrorPwd('');
+        } else {
+            setErrorPwd('Bagian ini dapat diisi maksimal 100 karakter');
+        }
+    };
 
     // ** Max Input Number 10 Digit
     const handleChangeUser_id = (event) => {
@@ -85,7 +114,6 @@ export default function MobileLegend_5() {
                 setisLoading(false);
             } else {
                 setisError(true);
-                console.log("gagal");
             }
         })
     }, [id]);
@@ -166,8 +194,11 @@ export default function MobileLegend_5() {
         console.log(handleSubmit);
 
         const phone_whatsapp = phone;
+        const email_no = event.target.email_no.value;
+        const pwd = event.target.pwd.value;
         const user_id = event.target.user_id.value;
         const zone_id = event.target.zone_id.value;
+        const login_via = event.target.login_via.value;
         const category = event.target.category.value;
         const sub_category = event.target.sub_category.value;
         const productsId = document.querySelector('input[name="product"]:checked');
@@ -181,7 +212,7 @@ export default function MobileLegend_5() {
         const nama = event.target.nama.value;
         const randomValue = generateRandomValue();
         setInputValue(randomValue);
-        const url = `https://wa.me/${phone_whatsapp}?text=*›%20Game*%20%3A%20${encodeURIComponent(category)}%20${encodeURIComponent(sub_category)}%0A*›%20Order%20ID*%20%3A%20${encodeURIComponent(user_id)}%20(%20${encodeURIComponent(zone_id)}%20)%0A*›%20Item*%20%3A%20${encodeURIComponent(products)}%0A*›%20Pembayaran%20via*%20%3A%20${encodeURIComponent(payment)}%20${encodeURIComponent(payment_number_account)}%0A*›%20Total*%20%3A%20Rp%20${encodeURIComponent(products_price)}%2C-%0A*›%20Nama Costumer*%20%3A%20${encodeURIComponent(nama)}%0A*›%20RefId*%20%3A%20%60%60%60S2302160${encodeURIComponent(randomValue)}%60%60%60%0A%0AKirim%20Bukti%20Pembayaran%20Disini%20ya%0AJika%20sudah%20ketik%20*PING*%0A%0A*_Best%20regards_*%0A*zaastore8*%0Ahttps%3A%2F%2Fzaastore8.netlify.app`;
+        const url = `https://wa.me/${phone_whatsapp}?text=*›%20Game*%20%3A%20${encodeURIComponent(category)}%20${encodeURIComponent(sub_category)}%0A*›%20Email/No*%20%3A%20${encodeURIComponent(email_no)}%0A*›%20Password*%20%3A%20${encodeURIComponent(pwd)}%0A*›%20Order%20ID*%20%3A%20${encodeURIComponent(user_id)}%20(%20${encodeURIComponent(zone_id)}%20)%0A*›%20Login*%20%3A%20${encodeURIComponent(login_via)}%0A*›%20Item*%20%3A%20${encodeURIComponent(products)}%0A*›%20Pembayaran%20via*%20%3A%20${encodeURIComponent(payment)}%20${encodeURIComponent(payment_number_account)}%0A*›%20Total*%20%3A%20Rp%20${encodeURIComponent(products_price)}%2C-%0A*›%20Nama Costumer*%20%3A%20${encodeURIComponent(nama)}%0A*›%20RefId*%20%3A%20%60%60%60S2302160${encodeURIComponent(randomValue)}%60%60%60%0A%0AKirim%20Bukti%20Pembayaran%20Disini%20ya%0AJika%20sudah%20ketik%20*PING*%0A%0A*_Best%20regards_*%0A*zaastore8*%0Ahttps%3A%2F%2Fzaastore8.netlify.app`;
         window.open(url);
 
     };
@@ -236,6 +267,16 @@ export default function MobileLegend_5() {
                                         </div>
                                         <div className='xl:grid xl:grid-cols-2 lg:grid-cols-1 lg:grid md:grid-cols-2 md:grid sm:grid sm:grid-cols-1 xs:grid xs:grid-cols-1 xss:grid xss:grid-cols-1 gap-x-8 gap-y-4 px-2 py-2 mb-2'>
                                             <div className="relative">
+                                                <input type="text" id="email_no" name='email_no' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="320" value={email_no} onChange={handleChangeEmail_no} required />
+                                                <label htmlFor="email_no" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email / No hp</label>
+                                                {errorEmail_no && <div className="errorEmail_no text-sm text-red-500 sm:mb-3">{errorEmail_no}</div>}
+                                            </div>
+                                            <div className="relative">
+                                                <input type="text" id="pwd" name='pwd' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="100" value={pwd} onChange={handleChangePwd} required />
+                                                <label htmlFor="pwd" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                                                {errorPwd && <div className="errorPwd text-sm text-red-500 sm:mb-3">{errorPwd}</div>}
+                                            </div>
+                                            <div className="relative">
                                                 {dataCategory.map((item) => (
                                                     <>
                                                         <div key={item}>
@@ -252,6 +293,15 @@ export default function MobileLegend_5() {
                                                 <input type="number" id="zone_id" name='zone_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="5" value={zone_id} onChange={handleChangeZone_id} required />
                                                 <label htmlFor="zone_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">( Zone ID )</label>
                                                 {errorZone_id && <div className="errorZone_id text-sm text-red-500">{errorZone_id}</div>}
+                                            </div>
+                                            <div calssName="relative">
+                                                <Form.Select aria-label="Default select example" id="login_via" name='login_via' onChange={handleChangeZone_id} required >
+                                                    <option>- Login Via -</option>
+                                                    <option value="Google">Google</option>
+                                                    <option value="Moonton">Moonton</option>
+                                                    <option value="Facebook">Facebook</option>
+                                                    <option value="Vk">Vk</option>
+                                                </Form.Select>
                                             </div>
                                         </div>
                                         <div>
@@ -428,6 +478,16 @@ export default function MobileLegend_5() {
                                         </div>
                                         <div className='xl:grid xl:grid-cols-2 lg:grid-cols-1 lg:grid md:grid-cols-2 md:grid sm:grid sm:grid-cols-1 xs:grid xs:grid-cols-1 xss:grid xss:grid-cols-1 gap-x-8 gap-y-4 px-2 py-2 mb-2'>
                                             <div className="relative">
+                                                <input type="text" id="email_no" name='email_no' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="320" value={email_no} onChange={handleChangeEmail_no} required />
+                                                <label htmlFor="email_no" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email / No hp</label>
+                                                {errorEmail_no && <div className="errorEmail_no text-sm text-red-500 sm:mb-3">{errorEmail_no}</div>}
+                                            </div>
+                                            <div className="relative">
+                                                <input type="text" id="pwd" name='pwd' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="100" value={pwd} onChange={handleChangePwd} required />
+                                                <label htmlFor="pwd" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                                                {errorPwd && <div className="errorPwd text-sm text-red-500 sm:mb-3">{errorPwd}</div>}
+                                            </div>
+                                            <div className="relative">
                                                 {dataCategory.map((item) => (
                                                     <>
                                                         <div key={item}>
@@ -444,6 +504,15 @@ export default function MobileLegend_5() {
                                                 <input type="number" id="zone_id" name='zone_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="5" value={zone_id} onChange={handleChangeZone_id} required />
                                                 <label htmlFor="zone_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">( Zone ID )</label>
                                                 {errorZone_id && <div className="errorZone_id text-sm text-red-500">{errorZone_id}</div>}
+                                            </div>
+                                            <div calssName="relative">
+                                                <Form.Select aria-label="Default select example" id="login_via" name='login_via' onChange={handleChangeZone_id} required >
+                                                    <option>- Login Via -</option>
+                                                    <option value="Google">Google</option>
+                                                    <option value="Moonton">Moonton</option>
+                                                    <option value="Facebook">Facebook</option>
+                                                    <option value="Vk">Vk</option>
+                                                </Form.Select>
                                             </div>
                                         </div>
                                         <div>
@@ -526,7 +595,7 @@ export default function MobileLegend_5() {
                                                 <div className='mt-3'>
                                                     <div key={item}>
                                                         <input type="radio" className='hidden peer' name='payment' id={item.wallet_name} value={item.number_account} required />
-                                                        <label htmlFor={item.wallet_name} className="inline-flex peer-checked:shadow-xl items-center justify-between w-full p-4 text-gray-500 border peer-checked:ring-blue-500 peer-checked:ring-2 border-gray-200 rounded-lg cursor-pointer peer-checked:text-gray-900 peer-checked:bg-blue-100 hover:text-gray-900 hover:bg-gray-1000">
+                                                        <label htmlFor={item.wallet_name} className="inline-flex peer-checked:shadow-xl items-center justify-between w-full p-4 text-gray-500 border peer-checked:ring-blue-500 peer-checked:ring-2 border-gray-200 rounded-lg cursor-pointer peer-checked:text-gray-900 peer-checked:bg-blue-100 hover:text-gray-900 hover:bg-gray-100">
                                                             <div className='block'>
                                                                 <div className='w-full text-sm font-semibold'>{item.wallet_name}</div>
                                                                 <div className='w-full text-sm italic'>A/n {item.first_name} {item.last_name}</div>

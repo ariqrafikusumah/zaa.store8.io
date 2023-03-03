@@ -48,7 +48,7 @@ export default function MobileLegend_2() {
             setPwd(inputNumberPwd);
             setErrorPwd('');
         } else {
-            setErrorPwd('Bagian ini dapat diisi maksimal 10 karakter');
+            setErrorPwd('Bagian ini dapat diisi maksimal 100 karakter');
         }
     };
 
