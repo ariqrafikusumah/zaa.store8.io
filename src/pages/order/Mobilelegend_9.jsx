@@ -75,7 +75,7 @@ export default function MobileLegend_7() {
 
     // ** Read Data APi category
     const [dataCategory, setDataCategory] = useState([]);
-    const id = '-NOQFV4o7ZV2Xzhe7aSr';
+    const id = '-NOQFV4o7ZV2Xzff7aSr';
 
     useEffect(() => {
         onValue(ref(db, `/categories/${id}`), (snapshot) => {
