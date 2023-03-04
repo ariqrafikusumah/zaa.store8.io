@@ -14,6 +14,7 @@ import Mobilelegend5 from "./admin/Mobilelegend5";
 import Mobilelegend6 from "./admin/Mobilelegend6";
 import Mobilelegend7 from "./admin/Mobilelegend7";
 import Mobilelegend8 from "./admin/Mobilelegend8";
+import Mobilelegend9 from "./admin/Mobilelegend9";
 import MobileLegend_1 from "./pages/order/Mobilelegend_1";
 import MobileLegend_2 from "./pages/order/Mobilelegend_2";
 import MobileLegend_3 from "./pages/order/Mobilelegend_3";
@@ -22,6 +23,7 @@ import MobileLegend_5 from "./pages/order/Mobilelegend_5";
 import MobileLegend_6 from "./pages/order/Mobilelegend_6";
 import MobileLegend_7 from "./pages/order/Mobilelegend_7";
 import MobileLegend_8 from "./pages/order/Mobilelegend_8";
+import MobileLegend_9 from "./pages/order/Mobilelegend_9";
 import Category from "./admin/Category";
 import Login from "./admin/Login";
 import Freefire from "./pages/order/Freefire";
@@ -71,6 +73,7 @@ function App() {
         <Route path="/admin/mobile-legend-6" element={<Mobilelegend6 />} />
         <Route path="/admin/mobile-legend-7" element={<Mobilelegend7 />} />
         <Route path="/admin/mobile-legend-8" element={<Mobilelegend8 />} />
+        <Route path="/admin/mobile-legend-9" element={<Mobilelegend9 />} />
         <Route path="/order/mobile-legend-1" element={<MobileLegend_1 />} />
         <Route path="/order/mobile-legend-2" element={<MobileLegend_2 />} />
         <Route path="/order/mobile-legend-3" element={<MobileLegend_3 />} />
@@ -79,6 +82,7 @@ function App() {
         <Route path="/order/mobile-legend-6" element={<MobileLegend_6 />} />
         <Route path="/order/mobile-legend-7" element={<MobileLegend_7 />} />
         <Route path="/order/mobile-legend-8" element={<MobileLegend_8 />} />
+        <Route path="/order/mobile-legend-9" element={<MobileLegend_9 />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <FooterBot />
