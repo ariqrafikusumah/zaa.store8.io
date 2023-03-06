@@ -191,7 +191,7 @@ export default function Freefire() {
                                         <div key={item}>
                                             <img className='h-32 w-32 rounded-xl' src={item.thumbnail} alt={item.category} />
                                             <h1 className='text-lg font-bold'>{item.category}</h1>
-                                            <p className='text-sm h-auto'>{item.description}</p>
+                                            <div dangerouslySetInnerHTML={{ __html: item.description }} />
                                         </div>
                                     </>
                                 ))}
@@ -369,7 +369,7 @@ export default function Freefire() {
                                         <div key={item}>
                                             <img className='h-32 w-32 rounded-xl' src={item.thumbnail} alt={item.category} />
                                             <h1 className='text-lg font-bold'>{item.category}</h1>
-                                            <p className='text-sm h-auto'>{item.description}</p>
+                                            <div dangerouslySetInnerHTML={{ __html: item.description }} />
                                         </div>
                                     </>
                                 ))}

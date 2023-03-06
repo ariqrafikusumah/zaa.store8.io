@@ -40,7 +40,7 @@ export default function MobileLegend_2() {
         }
     };
 
-    // ** Max Input Number 10 Digit
+    // ** Max Input Number 100 Digit
     const handleChangePwd = (event) => {
         const inputNumberPwd = event.target.value;
         // Remove non-numeric characters from the input
