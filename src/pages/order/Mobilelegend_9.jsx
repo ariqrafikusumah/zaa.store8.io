@@ -4,8 +4,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { db } from '../../database/firebase';
 import { ref, onValue } from "firebase/database";
+import { FormSelect } from 'react-bootstrap';
 
-export default function MobileLegend_7() {
+export default function MobileLegend_9() {
 
     // ** Modal Petunjuk
     const [show, setShow] = useState(false);
@@ -20,8 +21,16 @@ export default function MobileLegend_7() {
     const [inputValue, setInputValue] = useState('');
     const [user_id, setUser_id] = useState('');
     const [zone_id, setZone_id] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name_skin, setName_skin] = useState('');
+    const [login_via, setLogin_via] = useState('');
     const [errorUser_id, setErrorUser_id] = useState('');
     const [errorZone_id, setErrorZone_id] = useState('');
+    const [errorEmail, setErrorEmail] = useState('');
+    const [errorPassword, setErrorPassword] = useState('');
+    const [errorName_skin, setErrorName_skin] = useState('');
+    const [errorLogin_via, setErrorLogin_via] = useState('');
 
     // ** Max Input Number 10 Digit
     const handleChangeUser_id = (event) => {
@@ -47,6 +56,54 @@ export default function MobileLegend_7() {
         }
     };
 
+    // ** Max Input  320 Digit
+    const handleChangeEmail = (event) => {
+        const inputNumberEmail = event.target.value
+        // Remove non-numeric characters from the input
+        if (inputNumberEmail.length <= 320) {
+            setEmail(inputNumberEmail);
+            setErrorEmail('');
+        } else {
+            setErrorEmail('Bagian ini dapat diisi maksimal 320 karakter');
+        }
+    };
+
+    // ** Max Input  100 Digit
+    const handleChangePassword = (event) => {
+        const inputNumberPassword = event.target.value
+        // Remove non-numeric characters from the input
+        if (inputNumberPassword.length <= 100) {
+            setPassword(inputNumberPassword);
+            setErrorPassword('');
+        } else {
+            setErrorPassword('Bagian ini dapat diisi maksimal 100 karakter');
+        }
+    };
+
+    // ** Max Input 100 Digit
+    const handleChangeName_skin = (event) => {
+        const inputNumberName_skin = event.target.value
+        // Remove non-numeric characters from the input
+        if (inputNumberName_skin.length <= 100) {
+            setName_skin(inputNumberName_skin);
+            setErrorName_skin('');
+        } else {
+            setErrorName_skin('Bagian ini dapat diisi maksimal 100 karakter');
+        }
+    };
+
+    // ** Max Input  100 Digit
+    const handleChangeLogin_via = (event) => {
+        const inputNumberLogin_via = event.target.value
+        // Remove non-numeric characters from the input
+        if (inputNumberLogin_via.length <= 100) {
+            setLogin_via(inputNumberLogin_via);
+            setErrorLogin_via('');
+        } else {
+            setErrorLogin_via('Bagian ini dapat diisi maksimal 100 karakter');
+        }
+    };
+
     // ** Generate Code RefId
     const generateRandomValue = () => {
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -57,6 +114,21 @@ export default function MobileLegend_7() {
         }
         return result;
     };
+
+    // ** Read Pilihan Skin
+    const [skin_limit, setSkin_limit] = useState([]);
+    useEffect(() => {
+        onValue(ref(db, '/skin-limit'), (snapshot) => {
+            const data = snapshot.val();
+            if (data !== null) {
+                const dataArray = Object.values(data).sort((a, b) => a.name_skin.localeCompare(b.name_skin));
+                setSkin_limit(dataArray);
+                setisLoading(false);
+            } else {
+                setisError(true);
+            }
+        })
+    }, []);
 
     // ** Read Phone-Whatsapp
     const [phone, setPhone] = useState('');
@@ -168,6 +240,10 @@ export default function MobileLegend_7() {
         const phone_whatsapp = phone;
         const user_id = event.target.user_id.value;
         const zone_id = event.target.zone_id.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        const login_via = event.target.login_via.value;
+        const name_skin = event.target.name_skin.value;
         const category = event.target.category.value;
         const sub_category = event.target.sub_category.value;
         const productsId = document.querySelector('input[name="product"]:checked');
@@ -181,7 +257,7 @@ export default function MobileLegend_7() {
         const nama = event.target.nama.value;
         const randomValue = generateRandomValue();
         setInputValue(randomValue);
-        const url = `https://wa.me/${phone_whatsapp}?text=*›%20Game*%20%3A%20${encodeURIComponent(category)}%20${encodeURIComponent(sub_category)}%0A*›%20Order%20ID*%20%3A%20${encodeURIComponent(user_id)}%20(%20${encodeURIComponent(zone_id)}%20)%0A*›%20Item*%20%3A%20${encodeURIComponent(products)}%0A*›%20Pembayaran%20via*%20%3A%20${encodeURIComponent(payment)}%20${encodeURIComponent(payment_number_account)}%0A*›%20Total*%20%3A%20Rp%20${encodeURIComponent(products_price)}%2C-%0A*›%20Nama Costumer*%20%3A%20${encodeURIComponent(nama)}%0A*›%20RefId*%20%3A%20%60%60%60S2302160${encodeURIComponent(randomValue)}%60%60%60%0A%0AKirim%20Bukti%20Pembayaran%20Disini%20ya%0AJika%20sudah%20ketik%20*DONE%20TF%20MIN*%0A%0A*_Best%20regards_*%0A*zaastore8*%0Ahttps%3A%2F%2Fzaastore8.netlify.app`;
+        const url = `https://wa.me/${phone_whatsapp}?text=*›%20Game*%20%3A%20${encodeURIComponent(category)}%20${encodeURIComponent(sub_category)}%0A*›%20Order%20ID*%20%3A%20${encodeURIComponent(user_id)}%20(%20${encodeURIComponent(zone_id)}%20)%0A*›%20Email*%20%3A%20${encodeURIComponent(email)}%0A*›%20Password*%20%3A%20${encodeURIComponent(password)}%0A*›%20Login*%20%3A%20${encodeURIComponent(login_via)}%0A*›%20Item%201*%20%3A%20${encodeURIComponent(name_skin)}%0A*›%20Item%202*%20%3A%20${encodeURIComponent(products)}%0A*›%20Pembayaran%20via*%20%3A%20${encodeURIComponent(payment)}%20${encodeURIComponent(payment_number_account)}%0A*›%20Total*%20%3A%20Rp%20${encodeURIComponent(products_price)}%2C-%0A*›%20Nama Costumer*%20%3A%20${encodeURIComponent(nama)}%0A*›%20RefId*%20%3A%20%60%60%60S2302160${encodeURIComponent(randomValue)}%60%60%60%0A%0AKirim%20Bukti%20Pembayaran%20Disini%20ya%0AJika%20sudah%20ketik%20*DONE%20TF%20MIN*%0A%0A*_Best%20regards_*%0A*zaastore8*%0Ahttps%3A%2F%2Fzaastore8.netlify.app`;
         window.open(url);
 
     };
@@ -197,7 +273,7 @@ export default function MobileLegend_7() {
             </div>
         </div>
     );
-    else if (dataCategory, dataProduct, dataPaymentQris, dataPaymentBank, dataPaymentWallet && !isError)
+    else if (dataCategory, dataProduct, dataPaymentQris, dataPaymentBank, dataPaymentWallet, skin_limit && !isError)
         return (
             <>
                 <div>
@@ -235,6 +311,11 @@ export default function MobileLegend_7() {
                                             <span className='border border-blue-500 bg-blue-500 px-2 text-white rounded-full'>1</span>&nbsp;Masukkan User ID
                                         </div>
                                         <div className='xl:grid xl:grid-cols-2 lg:grid-cols-1 lg:grid md:grid-cols-2 md:grid sm:grid sm:grid-cols-1 xs:grid xs:grid-cols-1 xss:grid xss:grid-cols-1 gap-x-8 gap-y-4 px-2 py-2 mb-2'>
+                                            <div className='relative'>
+                                                <input type="number" id="user_id" name='user_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="10" value={user_id} onChange={handleChangeUser_id} required />
+                                                <label htmlFor="user_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Masukkan User ID</label>
+                                                {errorUser_id && <div className="errorUser_id text-sm text-red-500 sm:mb-3">{errorUser_id}</div>}
+                                            </div>
                                             <div className="relative">
                                                 {dataCategory.map((item) => (
                                                     <>
@@ -244,14 +325,37 @@ export default function MobileLegend_7() {
                                                         </div>
                                                     </>
                                                 ))}
-                                                <input type="number" id="user_id" name='user_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="10" value={user_id} onChange={handleChangeUser_id} required />
-                                                <label htmlFor="user_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Masukkan User ID</label>
-                                                {errorUser_id && <div className="errorUser_id text-sm text-red-500 sm:mb-3">{errorUser_id}</div>}
-                                            </div>
-                                            <div className="relative">
                                                 <input type="number" id="zone_id" name='zone_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="5" value={zone_id} onChange={handleChangeZone_id} required />
                                                 <label htmlFor="zone_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">( Zone ID )</label>
                                                 {errorZone_id && <div className="errorZone_id text-sm text-red-500">{errorZone_id}</div>}
+                                            </div>
+                                            <div className="relative">
+                                                <FormSelect id='login_via' name='login_via' onChange={handleChangeLogin_via}>
+                                                    <option selected disabled>Login Via</option>
+                                                    <option value="Google">Google</option>
+                                                    <option value="Mooton">Moonton</option>
+                                                    <option value="Facebook">Facebook</option>
+                                                    <option value="Vk">Vk</option>
+                                                    <option value="TikTok">TikTok</option>
+                                                </FormSelect>
+                                            </div>
+                                            <div className='relative'>
+                                                <input type="email" id="email" name='email' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="320" value={email} onChange={handleChangeEmail} required />
+                                                <label htmlFor="email" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email</label>
+                                                {errorEmail && <div className="errorEmail text-sm text-red-500 sm:mb-3">{errorEmail}</div>}
+                                            </div>
+                                            <div className='relative'>
+                                                <input type="text" id="password" name='password' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="100" value={password} onChange={handleChangePassword} required />
+                                                <label htmlFor="password" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                                                {errorPassword && <div className="errorPassword text-sm text-red-500 sm:mb-3">{errorPassword}</div>}
+                                            </div>
+                                            <div className='relative'>
+                                                <FormSelect id='name_skin' name='name_skin' onChange={handleChangeName_skin}>
+                                                    <option selected disabled>Pilih Skin</option>
+                                                    {skin_limit.map((item) => (
+                                                        <option value={item.name_skin}>{item.name_skin}</option>
+                                                    ))}
+                                                </FormSelect>
                                             </div>
                                         </div>
                                         <div>
@@ -423,10 +527,15 @@ export default function MobileLegend_7() {
                             <form onSubmit={handleSubmit}>
                                 <div className='border border-gray-200 rounded-xl shadow-lg bg-white xl:mt-0 lg:mt-0 md:mt-5 xs:mt-5 xss:mt-5'>
                                     <div className='xl:px-5 xl:py-5 lg:px-5 lg:py-5 md:px-5 md:py-5 sm:px-5 sm:py-5 xs:px-2 xs:py-2 mb-3'>
-                                        <div className='font-bold text-lg'>
+                                    <div className='font-bold text-lg'>
                                             <span className='border border-blue-500 bg-blue-500 px-2 text-white rounded-full'>1</span>&nbsp;Masukkan User ID
                                         </div>
                                         <div className='xl:grid xl:grid-cols-2 lg:grid-cols-1 lg:grid md:grid-cols-2 md:grid sm:grid sm:grid-cols-1 xs:grid xs:grid-cols-1 xss:grid xss:grid-cols-1 gap-x-8 gap-y-4 px-2 py-2 mb-2'>
+                                            <div className='relative'>
+                                                <input type="number" id="user_id" name='user_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="10" value={user_id} onChange={handleChangeUser_id} required />
+                                                <label htmlFor="user_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Masukkan User ID</label>
+                                                {errorUser_id && <div className="errorUser_id text-sm text-red-500 sm:mb-3">{errorUser_id}</div>}
+                                            </div>
                                             <div className="relative">
                                                 {dataCategory.map((item) => (
                                                     <>
@@ -436,14 +545,37 @@ export default function MobileLegend_7() {
                                                         </div>
                                                     </>
                                                 ))}
-                                                <input type="number" id="user_id" name='user_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="10" value={user_id} onChange={handleChangeUser_id} required />
-                                                <label htmlFor="user_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Masukkan User ID</label>
-                                                {errorUser_id && <div className="errorUser_id text-sm text-red-500 sm:mb-3">{errorUser_id}</div>}
-                                            </div>
-                                            <div className="relative">
                                                 <input type="number" id="zone_id" name='zone_id' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="5" value={zone_id} onChange={handleChangeZone_id} required />
                                                 <label htmlFor="zone_id" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">( Zone ID )</label>
                                                 {errorZone_id && <div className="errorZone_id text-sm text-red-500">{errorZone_id}</div>}
+                                            </div>
+                                            <div className="relative">
+                                                <FormSelect id='login_via' name='login_via' onChange={handleChangeLogin_via}>
+                                                    <option selected disabled>Login Via</option>
+                                                    <option value="Google">Google</option>
+                                                    <option value="Mooton">Moonton</option>
+                                                    <option value="Facebook">Facebook</option>
+                                                    <option value="Vk">Vk</option>
+                                                    <option value="TikTok">TikTok</option>
+                                                </FormSelect>
+                                            </div>
+                                            <div className='relative'>
+                                                <input type="email" id="email" name='email' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="320" value={email} onChange={handleChangeEmail} required />
+                                                <label htmlFor="email" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Email</label>
+                                                {errorEmail && <div className="errorEmail text-sm text-red-500 sm:mb-3">{errorEmail}</div>}
+                                            </div>
+                                            <div className='relative'>
+                                                <input type="text" id="password" name='password' className="block border hover:ring-blue-500 hover:border-blue-500 px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " maxLength="100" value={password} onChange={handleChangePassword} required />
+                                                <label htmlFor="password" className="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">Password</label>
+                                                {errorPassword && <div className="errorPassword text-sm text-red-500 sm:mb-3">{errorPassword}</div>}
+                                            </div>
+                                            <div className='relative'>
+                                                <FormSelect id='name_skin' name='name_skin' onChange={handleChangeName_skin}>
+                                                    <option selected disabled>Pilih Skin</option>
+                                                    {skin_limit.map((item) => (
+                                                        <option value={item.name_skin}>{item.name_skin}</option>
+                                                    ))}
+                                                </FormSelect>
                                             </div>
                                         </div>
                                         <div>

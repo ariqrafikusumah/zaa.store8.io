@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { db } from '../../database/firebase';
 import { ref, onValue } from "firebase/database";
 
-export default function MobileLegend_7() {
+export default function MobileLegend_8() {
 
     // ** Modal Petunjuk
     const [show, setShow] = useState(false);

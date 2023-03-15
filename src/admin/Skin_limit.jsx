@@ -8,22 +8,17 @@ import Swal from "sweetalert2";
 import { FloatingLabel, Form, FormControl } from 'react-bootstrap';
 import { set, ref, onValue, remove, update } from "firebase/database";
 
-
-function Mobilelegend5() {
-    const [dataTabel, setDataTabel] = useState("");
+function Skin_limit() {
+    const [dataTabel, setDataTabel] = useState('');
     const [modalShow, setModalShow] = React.useState(false);
     const [modalShow2, setModalShow2] = React.useState(false);
     const [isLoading, setisLoading] = useState(true);
     const [isError, setisError] = useState(false);
-    const [product_name, setProduct_name] = useState([]);
-    const [price, setPrice] = useState([]);
-    const [picture, setPicture] = useState([]);
-    const [code, setCode] = useState([]);
-    const [tempUuid, setTempUuid] = useState([]);
-
+    const [name_skin, setName_skin] = useState('');
+    const [tempUuid, setTempUuid] = useState('');
     // ** Read 
     useEffect(() => {
-        onValue(ref(db, `/product-ml-5`), (snapshot) => {
+        onValue(ref(db, `/skin-limit`), (snapshot) => {
             let timerInterval
             Swal.fire({
                 title: 'Memuat data !',
@@ -51,7 +46,7 @@ function Mobilelegend5() {
             const data = snapshot.val();
             if (data !== null) {
                 Object.values(data).map((item) => {
-                    setDataTabel((oldArray) => [...oldArray, item].sort((a, b) => a.code.localeCompare(b.code)));
+                    setDataTabel((oldArray) => [...oldArray, item].sort((a, b) => a.name_skin.localeCompare(b.name_skin)));
                 });
             } else {
                 setisError(true);
@@ -62,27 +57,19 @@ function Mobilelegend5() {
 
     // ** Delete
     const handleDelete = (item) => {
-        remove(ref(db, `/product-ml-5/${item.uuid}`));
+        remove(ref(db, `/skin-limit/${item.uuid}`));
     };
 
     //** Update
     const handleUpdate = (item) => {
         console.log(
             'Update Button',
-            'uuid :', item.uuid,
-            'product name :', item.product_name,
-            'price :', item.price,
-            'picture :', item.picture,
-            'code :', item.code
+            'uuid :', item.uuid
         );
         setModalShow2(true, item.uuid);
-        setProduct_name(item.product_name);
-        setPrice(item.price);
-        setPicture(item.picture);
-        setCode(item.code);
+        setName_skin(item.name_skin);
         setTempUuid(item.uuid);
     };
-
     if (isLoading)
         return (
             <div className="text-center mt-5">
@@ -111,19 +98,25 @@ function Mobilelegend5() {
                                 <li>
                                     <div className="flex items-center">
                                         <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                                        <a href="/admin/mobile-legend-5" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Product Games</a>
+                                        <a href="/admin/mobile-legend-9" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Product Games</a>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="flex items-center">
                                         <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                                        <a href="/admin/mobile-legend-5" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Mobile Legends</a>
+                                        <a href="/admin/mobile-legend-9" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Mobile Legends</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className="flex items-center">
+                                        <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                                        <a href="/admin/mobile-legend-9/skin-limit" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Skin Limit</a>
                                     </div>
                                 </li>
                             </ol>
                         </nav>
                         <div className='text-3xl font-bold mb-4 mt-10'>
-                            Produk Mobile Legends
+                            Skin Limit
                         </div>
                         <div>
                             <button className=" rounded-full"><PlusCircleIcon className="w-8 hover:text-indigo-500 " onClick={() => setModalShow(true)} /></button>
@@ -138,10 +131,7 @@ function Mobilelegend5() {
                                     <thead className="bg-gray-50">
                                         <tr className="bg-gray-200 text-gray-700">
                                             <th className="py-2 px-4 border">No</th>
-                                            <th className="py-2 px-4 border">Nama Produk</th>
-                                            <th className="py-2 px-4 border">Harga (Rp)</th>
-                                            <th className="py-2 px-4 border">Gambar</th>
-                                            <th className="py-2 px-4 border">Kode Produk</th>
+                                            <th className="py-2 px-4 border">Nama Skin</th>
                                             <th className="py-2 px-4 border">Actions</th>
                                         </tr>
                                     </thead>
@@ -153,17 +143,8 @@ function Mobilelegend5() {
                                                         <td className="px-6 py-4 whitespace-nowrap border">
                                                             <div className="text-sm font-medium text-gray-900">{index + 1}</div>
                                                         </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap border">
-                                                            <div className="text-sm font-medium text-gray-900">{item.product_name}</div>
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap border">
-                                                            <div className="text-sm text-gray-500">Rp {item.price}</div>
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap border">
-                                                            <div className="text-sm px-3 text-gray-500"><img className="w-8" src={item.picture} alt={item.product_name} /></div>
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-nowrap border">
-                                                            <div className="text-sm font-medium text-gray-900">{item.code}</div>
+                                                        <td className="px-6 py-6 whitespace-nowrap border">
+                                                            {item.name_skin}
                                                         </td>
                                                         <td className="flex px-6 py-4 whitespace-nowrap border">
                                                             <div>
@@ -173,10 +154,7 @@ function Mobilelegend5() {
                                                                 <EditData
                                                                     show={modalShow2}
                                                                     onHide={() => setModalShow2(false)}
-                                                                    product_name={product_name}
-                                                                    price={price}
-                                                                    picture={picture}
-                                                                    code={code}
+                                                                    name_skin={name_skin}
                                                                     uuid={tempUuid}
                                                                 />
                                                             </div>
@@ -206,7 +184,7 @@ function Mobilelegend5() {
                         <nav className="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 mt-3" aria-label="Breadcrumb">
                             <ol className="inline-flex items-center space-x-1 md:space-x-3">
                                 <li className="inline-flex items-center">
-                                    <a href="/admin/Dashboard-Admin" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 ">
+                                    <a href="/admin/dashboard-admin" className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-indigo-600 ">
                                         <svg aria-hidden="true" className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" /></svg>
                                         Dashboard
                                     </a>
@@ -214,19 +192,25 @@ function Mobilelegend5() {
                                 <li>
                                     <div className="flex items-center">
                                         <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                                        <a href="/admin/mobile-legend-5" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Product Games</a>
+                                        <a href="/admin/mobile-legend-9" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Product Games</a>
                                     </div>
                                 </li>
                                 <li>
                                     <div className="flex items-center">
                                         <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
-                                        <a href="/admin/mobile-legend-5s" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Mobile Legends</a>
+                                        <a href="/admin/mobile-legend-9" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Mobile Legends</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className="flex items-center">
+                                        <svg aria-hidden="true" className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
+                                        <a href="/admin/mobile-legend-9/skin-limit" className="ml-1 text-sm font-medium text-gray-700 hover:text-indigo-600 md:ml-2 ">Skin Limit</a>
                                     </div>
                                 </li>
                             </ol>
                         </nav>
                         <div className='text-3xl font-bold mb-4 mt-10'>
-                            Produk Mobile Legends
+                            Skin Limit
                         </div>
                         <div>
                             <button className=" rounded-full"><PlusCircleIcon className="w-8 hover:text-indigo-500 " onClick={() => setModalShow(true)} /></button>
@@ -235,22 +219,53 @@ function Mobilelegend5() {
                                 onHide={() => setModalShow(false)}
                             />
                         </div>
-                        <div className="overflow-x-auto rounded-lg">
-                            <table className="table-auto border-collapse">
-                                <thead className="bg-gray-50">
-                                    <tr className="bg-gray-200 text-gray-700">
-                                        <th className="py-2 px-4 border">No</th>
-                                        <th className="py-2 px-4 border">Nama Produk</th>
-                                        <th className="py-2 px-4 border">Harga (Rp)</th>
-                                        <th className="py-2 px-4 border">Gambar</th>
-                                        <th className="py-2 px-4 border">Kode Produk</th>
-                                        <th className="py-2 px-4 border">Actions</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                <div divclassName="px-6 py-4 text-center whitespace-nowrap border text-sm font-medium text-gray-900">Tidak Ada Data</div>
-                            </tbody>
+                        <div>
+                            <div className="overflow-x-auto rounded-lg">
+                                <table className="table-auto border-collapse">
+                                    <thead className="bg-gray-50">
+                                        <tr className="bg-gray-200 text-gray-700">
+                                            <th className="py-2 px-4 border">No</th>
+                                            <th className="py-2 px-4 border">Nama Skin</th>
+                                            <th className="py-2 px-4 border">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        Tidak Ada Data
+                                        {dataTabel.map((item, index) => {
+                                            return (
+                                                <>
+                                                    <tr key={item.uuid}>
+                                                        <td className="px-6 py-4 whitespace-nowrap border">
+                                                            <div className="text-sm font-medium text-gray-900">{index + 1}</div>
+                                                        </td>
+                                                        <td className="px-6 py-6 whitespace-nowrap border">
+                                                            <div className="text-sm font-medium text-gray-900"><img className='w-full h-full' src={item.name_skin} alt="" /></div>
+                                                        </td>
+                                                        <td className="flex px-6 py-4 whitespace-nowrap border">
+                                                            <div>
+                                                                <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={() => handleUpdate(item)} >
+                                                                    Edit
+                                                                </button>
+                                                                <EditData
+                                                                    show={modalShow2}
+                                                                    onHide={() => setModalShow2(false)}
+                                                                    name_skin={name_skin}
+                                                                    uuid={tempUuid}
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2" onClick={() => handleDelete(item)}>
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                            )
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -259,41 +274,23 @@ function Mobilelegend5() {
     }
 }
 
-
 function TambahData(props) {
-    const [product_name, setProduct_name] = useState("");
-    const [price, setPrice] = useState("");
-    const [picture, setPicture] = useState("");
-    const [code, setCode] = useState("");
+    const [name_skin, setName_skin] = useState("");
 
     const handleDataChange1 = (e) => {
-        setProduct_name(e.target.value)
-    }
-    const handleDataChange2 = (e) => {
-        setPrice(e.target.value)
-    }
-    const handleDataChange3 = (e) => {
-        setPicture(e.target.value)
-    }
-    const handleDataChange4 = (e) => {
-        setCode(e.target.value)
+        setName_skin(e.target.value)
     }
     // ** Write
     const handleOnSubmit = () => {
         const uuid = uid();
-        set(ref(db, `/product-ml-5/${uuid}`), {
-            product_name,
-            price,
-            picture,
-            code,
+        set(ref(db, `/skin-limit/${uuid}`), {
+            name_skin,
             uuid,
         });
-        setProduct_name("");
-        setPrice("");
-        setPicture("");
-        setCode("");
-        window.location.reload();
+        setName_skin("");
         props.onHide('');
+        window.location.reload();
+        console.log('Data Produk Mlbb Berahasil Ditambah', handleOnSubmit);
     }
     return (
         <>
@@ -311,35 +308,11 @@ function TambahData(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <FloatingLabel
-                            controlId="floatingProduct_name"
-                            label="Nama Produk"
+                            controlId="floatingQR"
+                            label="Nama Skin"
                             className="mb-3"
                         >
-                            <FormControl type="text" value={product_name} onChange={handleDataChange1} placeholder='Nama Produk' />
-                        </FloatingLabel>
-
-                        <FloatingLabel
-                            controlId="floatingPrice"
-                            label="Harga Produk"
-                            className="mb-3"
-                        >
-                            <FormControl type="text" value={price} onChange={handleDataChange2} placeholder='Harga Produk' />
-                        </FloatingLabel>
-
-                        <FloatingLabel
-                            controlId="floatingPicture"
-                            label="URL gambar (https://example.com/)"
-                            className="mb-3"
-                        >
-                            <FormControl type="url" value={picture} onChange={handleDataChange3} placeholder='URL gambar (https://example.com/)' />
-                        </FloatingLabel>
-
-                        <FloatingLabel
-                            controlId="floatingCode"
-                            label="Kode Produk"
-                            className="mb-3"
-                        >
-                            <FormControl type="text" value={code} onChange={handleDataChange4} placeholder='Kode Produk' />
+                            <FormControl type="text" value={name_skin} onChange={handleDataChange1} placeholder='Nama Skin' />
                         </FloatingLabel>
                     </Modal.Body>
                     <Modal.Footer>
@@ -351,29 +324,13 @@ function TambahData(props) {
         </>
     )
 }
-
 function EditData(props) {
-    const [product_name, setProduct_name] = useState(props.product_name || "");
-    const [price, setPrice] = useState(props.price || "");
-    const [picture, setPicture] = useState(props.picture || "");
-    const [code, setCode] = useState(props.code || "");
+    const [name_skin, setName_skin] = useState(props.name_skin || "");
     const [tempUuid, setTempUuid] = useState(props.uuid || "");
 
     useEffect(() => {
-        setProduct_name(props.product_name || "");
-    }, [props.product_name]);
-
-    useEffect(() => {
-        setPrice(props.price || "");
-    }, [props.price]);
-
-    useEffect(() => {
-        setPicture(props.picture || "");
-    }, [props.picture]);
-
-    useEffect(() => {
-        setCode(props.code || "");
-    }, [props.code]);
+        setName_skin(props.name_skin || "");
+    }, [props.name_skin]);
 
     useEffect(() => {
         // Update nilai tempUuid saat props.uuid berubah
@@ -381,34 +338,19 @@ function EditData(props) {
     }, [props.uuid]);
 
     const handleDataChange1 = (e) => {
-        setProduct_name(e.target.value)
-    }
-    const handleDataChange2 = (e) => {
-        setPrice(e.target.value)
-    }
-    const handleDataChange3 = (e) => {
-        setPicture(e.target.value)
-    }
-    const handleDataChange4 = (e) => {
-        setCode(e.target.value)
+        setName_skin(e.target.value)
     }
 
     // ** Update
     const handleSubmitChange = (e) => {
-        console.log("tempUuid :", product_name, price, picture, code, tempUuid);
+        console.log("tempUuid :", tempUuid);
         e.preventDefault();
         if (tempUuid) {
-            update(ref(db, `/product-ml-5/${tempUuid}`), {
-                product_name,
-                price,
-                picture,
-                code,
+            update(ref(db, `/skin-limit/${tempUuid}`), {
+                name_skin,
                 uuid: tempUuid,
             });
-            setProduct_name('');
-            setPrice('');
-            setPicture('');
-            setCode('');
+            setName_skin('');
             window.location.reload();
             props.onHide();
         }
@@ -431,35 +373,11 @@ function EditData(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <FloatingLabel
-                            controlId="floatingProduct_name"
-                            label="Nama Produk"
+                            controlId="floatingSkin"
+                            label="Nama Skin"
                             className="mb-3"
                         >
-                            <FormControl type="text" value={product_name} onChange={handleDataChange1} placeholder='Nama Produk' />
-                        </FloatingLabel>
-
-                        <FloatingLabel
-                            controlId="floatingPrice"
-                            label="Harga Produk"
-                            className="mb-3"
-                        >
-                            <FormControl type="text" value={price} onChange={handleDataChange2} placeholder='Harga Produk' />
-                        </FloatingLabel>
-
-                        <FloatingLabel
-                            controlId="floatingPicture"
-                            label="URL gambar (https://example.com/)"
-                            className="mb-3"
-                        >
-                            <FormControl type="url" value={picture} onChange={handleDataChange3} placeholder='URL gambar (https://example.com/)' />
-                        </FloatingLabel>
-
-                        <FloatingLabel
-                            controlId="floatingCode"
-                            label="Kode Produk"
-                            className="mb-3"
-                        >
-                            <FormControl type="text" value={code} onChange={handleDataChange4} placeholder='Kode Produk' />
+                            <FormControl type="text" value={name_skin} onChange={handleDataChange1} placeholder='Nama Skin' />
                         </FloatingLabel>
                     </Modal.Body>
                     <Modal.Footer>
@@ -471,7 +389,5 @@ function EditData(props) {
         </>
     )
 }
-export default Mobilelegend5
 
-
-
+export default Skin_limit

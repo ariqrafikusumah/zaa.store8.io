@@ -40,6 +40,7 @@ import BannerSetting from "./admin/BannerSetting";
 import PopUp from "./admin/PopUp";
 import Daftalayanan from "./pages/Daftalayanan";
 import WhatsappSetting from "./admin/WhatsappSetting";
+import Skin_limit from "./admin/Skin_limit";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
         <Route path="/admin/mobile-legend-7" element={<Mobilelegend7 />} />
         <Route path="/admin/mobile-legend-8" element={<Mobilelegend8 />} />
         <Route path="/admin/mobile-legend-9" element={<Mobilelegend9 />} />
+        <Route path="/admin/mobile-legend-9/skin-limit" element={<Skin_limit />} />
         <Route path="/order/mobile-legend-1" element={<MobileLegend_1 />} />
         <Route path="/order/mobile-legend-2" element={<MobileLegend_2 />} />
         <Route path="/order/mobile-legend-3" element={<MobileLegend_3 />} />
