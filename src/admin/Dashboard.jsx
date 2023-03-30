@@ -275,7 +275,7 @@ function Dashboard() {
               </div>
             </div>
           </a>
-          <a href="/admin/pop-up" className=' no-underline'>
+          {/* <a href="/admin/pop-up" className=' no-underline'>
             <div className=" hover:text-blue-500 hover:bg-blue-200 border shadow rounded-lg p-6">
               <div className='flex gap-2'>
                 <div className='py-3'>
@@ -287,7 +287,7 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-          </a>
+          </a> */}
           <a href="/admin/whatsapp-setting" className=' no-underline'>
             <div className=" hover:text-blue-500 hover:bg-blue-200 border shadow rounded-lg p-6">
               <div className='flex gap-2'>
